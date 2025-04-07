@@ -88,7 +88,7 @@ class Gameboard {
 
     receiveAttack(coordinate) {
         let sunkCount = 0;
-        if(this.#board[coordinate.x][coordinate.y] != 0 && this.#board[coordinate.x][coordinate.y] != -1) {
+        if(this.#board[coordinate.x][coordinate.y] != 0 && this.#board[coordinate.x][coordinate.y] != -1 && this.#board[coordinate.x][coordinate.y] != -2) {
             this.#ships[((this.#board[coordinate.x][coordinate.y])-1)].hit();
             this.#board[coordinate.x][coordinate.y] = -1;
         }
@@ -113,6 +113,13 @@ class Player {
     constructor(playertype,board) {
         this.#playertype = playertype;
         this.#gameboard = board;
+    }
+    get playertype() {
+        return this.#playertype;
+    }
+
+    get gameboard() {
+        return this.#gameboard;
     }
 }
 
