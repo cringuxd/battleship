@@ -1,11 +1,16 @@
 
-//Contains the class for the Ship
+class Coordinate {
+    constructor(x,y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
 class Ship {
     #length;
     #timesHit;
     #sunk;
-    #coordinates;
-
+    #coordinates; 
     constructor(length,coordinates) {
         this.#length = length;
         this.#timesHit = 0;
@@ -39,17 +44,78 @@ class Ship {
 }
 
 class Gameboard {
+    /*
+        board number flags:
+        0 -> unoccupied
+        any positive number -> occupied by ship
+        -1 -> occupied by destroyed ship
+        -2 -> missed attack
+    */
     #board;
-    constructor() {
+    #ships;
+    #numShips;
+    #noShips;
+    constructor(board) {
+        this.#board = board;
+        this.#ships = [];
+        this.#numShips = 0;
+        this.#noShips = false;
+    }
 
+    get board() {
+        return this.#board;
+    }
+
+    get numShips() {
+        return this.#numShips;
+    }
+
+    get noShips() {
+        return this.#noShips;
+    }
+
+    get ships() {
+        return this.#ships;
+    }
+
+    placeShip(coordinates,length) {
+        this.#ships.push(new Ship(length,coordinates));
+        this.#numShips++;
+        for(let i = 0; i < length; i++) {
+            this.#board[coordinates[i].x][coordinates[i].y] = this.#numShips;
+        }
+    }
+
+    receiveAttack(coordinate) {
+        let sunkCount = 0;
+        if(this.#board[coordinate.x][coordinate.y] != 0 && this.#board[coordinate.x][coordinate.y] != -1) {
+            this.#ships[((this.#board[coordinate.x][coordinate.y])-1)].hit();
+            this.#board[coordinate.x][coordinate.y] = -1;
+        }
+        else if(this.#board[coordinate.x][coordinate.y] == 0) {
+            this.#board[coordinate.x][coordinate.y] = -2;
+        }
+
+        for(let i = 0; i < this.#ships.length; i++) {
+            if(this.#ships[i].sunk == true) {
+                sunkCount++;
+            }
+        }
+        if(sunkCount == this.#numShips) {
+            this.#noShips = true;
+        }
     }
 }
 
 class Player {
     #playertype;
     #gameboard;
-    constructor(playertype) {
+    constructor(playertype,board) {
         this.#playertype = playertype;
-        this.#gameboard = new Gameboard();
+        this.#gameboard = board;
     }
 }
+
+
+
+export {Ship, Gameboard, Player, Coordinate};
