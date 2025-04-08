@@ -121,6 +121,9 @@ class Player {
     get gameboard() {
         return this.#gameboard;
     }
+    set gameboard(board) {
+        this.#gameboard = board;
+    }
 }
 
 

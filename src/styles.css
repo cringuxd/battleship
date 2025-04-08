@@ -17,6 +17,7 @@ html, body {
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .content {
@@ -29,6 +30,8 @@ html, body {
     border: 1px solid black;
     display: grid;
     grid-template-rows: 1fr 8fr 1fr;
+    margin-left: 6em;
+    margin-right: 6em;
 }
 
 .content-header {
@@ -59,10 +62,3 @@ html, body {
     grid-template-columns: repeat(10,1fr);
 }
 
-#player1 {
-
-}
-
-#player2 {
-
-}
